@@ -18,12 +18,12 @@ export class NictService {
 
 /*
   Response Structure
-  jsont( {
+  {
     "id": "ntp-a1.nict.go.jp",
     "it": 0.000,
     "st": 1492853474.226,
     "leap": 36,
     "next": 1483228800,
     "step": 1
-  } )
+  }
 */
