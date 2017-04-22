@@ -1,5 +1,11 @@
 # SimplrTimestamp
 
+[Simplr for @ngrx/store](https://github.com/ovrmrw/ngrx-store-simplr)
+
+[Demo on GitHub Pages](https://ovrmrw.github.io/simplr-timestamp)
+
+---
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
 
 ## Development server

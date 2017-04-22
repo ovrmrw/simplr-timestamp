@@ -10,7 +10,7 @@ export class NictService {
   ) { }
 
   requestServerTimestamp(): Observable<number> {
-    return this.http.get('http://ntp-a1.nict.go.jp/cgi-bin/json')
+    return this.http.get('https://ntp-a1.nict.go.jp/cgi-bin/json')
       .map(res => res.json() as { st: number })
       .map(data => data.st * 1000);
   }

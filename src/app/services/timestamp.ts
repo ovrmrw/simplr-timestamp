@@ -33,7 +33,7 @@ export class TimestampService {
     return result.action;
   }
 
-  async getServerTimestamp(timelag?: boolean) {
+  async getServerTimestamp(timelag: boolean = false) {
     const result = await this.simplr
       .dispatch('timestamp', this.nictService
         .requestServerTimestamp()
