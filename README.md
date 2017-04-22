@@ -1,6 +1,6 @@
 # SimplrTimestamp
 
-[Simplr for @ngrx/store](https://github.com/ovrmrw/ngrx-store-simplr)
+[ngrx-store-simplr (for @ngrx/store)](https://github.com/ovrmrw/ngrx-store-simplr)
 
 [Demo on GitHub Pages](https://ovrmrw.github.io/simplr-timestamp)
 
