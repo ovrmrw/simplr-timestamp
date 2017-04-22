@@ -29,7 +29,6 @@ export class TimestampContainerComponent {
   }
 
   bothTimestamp() {
-    this.service.getLocalTimestamp()
-      .then(() => this.service.getServerTimestamp(true));
+    this.service.getBothTimestamp(true);
   }
 }

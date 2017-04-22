@@ -36,7 +36,7 @@ describe('TimestampService', () => {
       Simplr,
       { provide: Adapter, useClass: AdapterForTesting },
       TimestampService,
-      { provide: NictService, useValue: jasmine.createSpyObj('nict', ['requestServerTimestamp']) },
+      { provide: NictService, useValue: jasmine.createSpyObj('nict', ['requestLocalTimestamp', 'requestServerTimestamp']) },
     ]
   }));
 
@@ -45,7 +45,8 @@ describe('TimestampService', () => {
     adapter = TestBed.get(Adapter);
     service = TestBed.get(TimestampService);
     const nict = TestBed.get(NictService);
-    nict.requestServerTimestamp.and.returnValue(Observable.of(1));
+    nict.requestLocalTimestamp.and.returnValue(Observable.of(1));
+    nict.requestServerTimestamp.and.returnValue(Observable.of(3));
 
     adapter.setInitialState({ ...initialState });
   });
@@ -55,7 +56,7 @@ describe('TimestampService', () => {
     service.getLocalTimestamp().then(a => action = a);
     tick();
     expect(action.type).toBe(_UPDATE_);
-    expect(action.payload.local).toBeGreaterThan(0);
+    expect(action.payload).toEqual({ local: 1 });
   }));
 
   it('getServerTimestamp', fakeAsync(() => {
@@ -63,6 +64,16 @@ describe('TimestampService', () => {
     service.getServerTimestamp().then(a => action = a);
     tick();
     expect(action.type).toBe(_UPDATE_);
-    expect(action.payload).toEqual({ server: 1, timelag: 0 });
+    expect(action.payload).toEqual({ server: 3, timelag: 0 });
+  }));
+
+  it('getBothTimestamp', fakeAsync(() => {
+    let actions: Action[];
+    service.getBothTimestamp(true).then(a => actions = a);
+    tick();
+    expect(actions).toEqual([
+      { type: _UPDATE_, payload: { local: 1 } },
+      { type: _UPDATE_, payload: { server: 3, timelag: 2 } },
+    ]);
   }));
 });

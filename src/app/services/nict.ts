@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
 
 
 @Injectable()
@@ -8,6 +10,10 @@ export class NictService {
   constructor(
     private http: Http,
   ) { }
+
+  requestLocalTimestamp(): Observable<number> {
+    return Observable.of(new Date().getTime());
+  }
 
   requestServerTimestamp(): Observable<number> {
     return this.http.get('https://ntp-a1.nict.go.jp/cgi-bin/json')
