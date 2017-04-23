@@ -55,21 +55,19 @@ describe('TimestampService', () => {
     let action: Action;
     service.getLocalTimestamp().then(a => action = a);
     tick();
-    expect(action.type).toBe(_UPDATE_);
-    expect(action.payload).toEqual({ local: 1 });
+    expect(action).toEqual({ type: _UPDATE_, payload: { local: 1 } });
   }));
 
   it('getServerTimestamp', fakeAsync(() => {
     let action: Action;
     service.getServerTimestamp().then(a => action = a);
     tick();
-    expect(action.type).toBe(_UPDATE_);
-    expect(action.payload).toEqual({ server: 3, timelag: 0 });
+    expect(action).toEqual({ type: _UPDATE_, payload: { server: 3, timelag: 0 } });
   }));
 
   it('getBothTimestamp', fakeAsync(() => {
     let actions: Action[];
-    service.getBothTimestamp(true).then(a => actions = a);
+    service.getBothTimestamp().then(a => actions = a);
     tick();
     expect(actions).toEqual([
       { type: _UPDATE_, payload: { local: 1 } },

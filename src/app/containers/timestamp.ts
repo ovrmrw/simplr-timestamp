@@ -29,6 +29,6 @@ export class TimestampContainerComponent {
   }
 
   bothTimestamp() {
-    this.service.getBothTimestamp(true);
+    this.service.getBothTimestamp();
   }
 }

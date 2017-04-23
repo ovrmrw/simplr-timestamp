@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Action } from '@ngrx/store';
 import { Simplr } from 'ngrx-store-simplr';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
@@ -29,23 +30,24 @@ export class TimestampService {
     private nict: NictService,
   ) { }
 
-  async getLocalTimestamp() {
-    const result = await this.simplr
+  getLocalTimestamp(): Promise<Action> {
+    return this.simplr
       .dispatch('timestamp', this.nict.requestLocalTimestamp().map(local => ({ local })))
-      .toPromise();
-    return result.action;
+      .toPromise()
+      .then(result => result.action);
   }
 
-  async getServerTimestamp(timelag: boolean = false) {
-    const result = await this.simplr
+  getServerTimestamp(timelag: boolean = false): Promise<Action> {
+    return this.simplr
       .dispatch('timestamp', this.nict.requestServerTimestamp().map(serverTimestampResolver(timelag)))
-      .toPromise();
-    return result.action;
+      .toPromise()
+      .then(result => result.action);
   }
 
-  async getBothTimestamp(timelag: boolean = false) {
-    const action1 = await this.getLocalTimestamp();
-    const action2 = await this.getServerTimestamp(timelag);
-    return [action1, action2];
+  getBothTimestamp(): Promise<Action[]> {
+    return Promise.all([
+      this.getLocalTimestamp(),
+      this.getServerTimestamp(true)
+    ]);
   }
 }
