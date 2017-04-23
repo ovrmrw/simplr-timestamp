@@ -1,4 +1,4 @@
-import 'rxjs/Rx';
+// import 'rxjs/Rx';
 import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
@@ -53,21 +53,21 @@ describe('TimestampService', () => {
 
   it('getLocalTimestamp', fakeAsync(() => {
     let action: Action;
-    service.getLocalTimestamp().then(a => action = a);
+    service.getLocalTimestamp().subscribe(a => action = a);
     tick();
     expect(action).toEqual({ type: _UPDATE_, payload: { local: 1 } });
   }));
 
   it('getServerTimestamp', fakeAsync(() => {
     let action: Action;
-    service.getServerTimestamp().then(a => action = a);
+    service.getServerTimestamp().subscribe(a => action = a);
     tick();
     expect(action).toEqual({ type: _UPDATE_, payload: { server: 3, timelag: 0 } });
   }));
 
   it('getBothTimestamp', fakeAsync(() => {
     let actions: Action[];
-    service.getBothTimestamp().then(a => actions = a);
+    service.getBothTimestamp().subscribe(a => actions = a);
     tick();
     expect(actions).toEqual([
       { type: _UPDATE_, payload: { local: 1 } },
