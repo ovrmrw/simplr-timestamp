@@ -2,13 +2,12 @@ import { combineReducers } from '@ngrx/store';
 import { Wrapper } from 'ngrx-store-simplr';
 
 import { AppState } from './models';
-import { timestampReducer } from './reducers/timestamp';
 
 const wrapper = new Wrapper<AppState>();
 
 
 const finalReducer = combineReducers({
-  timestamp: wrapper.wrapReducerForSimplr('timestamp', timestampReducer)
+  timestamp: wrapper.createWrappedReducer('timestamp')
 });
 
 export function reducer(state, action) {
