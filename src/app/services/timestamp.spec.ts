@@ -2,7 +2,7 @@
 import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
-import { Simplr, Adapter, AdapterForTesting, Wrapper } from 'ngrx-store-simplr';
+import { Simplr, Wrapper, Adapter, SimplrModule } from 'ngrx-store-simplr';
 import { TimestampService } from './timestamp';
 import { NictService } from './nict';
 
@@ -32,9 +32,10 @@ describe('TimestampService', () => {
   let service: TimestampService;
 
   beforeEach(() => TestBed.configureTestingModule({
+    imports: [
+      SimplrModule.forTesting(),
+    ],
     providers: [
-      Simplr,
-      { provide: Adapter, useClass: AdapterForTesting },
       TimestampService,
       { provide: NictService, useValue: jasmine.createSpyObj('nict', ['requestLocalTimestamp', 'requestServerTimestamp']) },
     ]
