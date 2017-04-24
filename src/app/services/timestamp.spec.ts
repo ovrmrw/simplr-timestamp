@@ -1,7 +1,7 @@
 // import 'rxjs/Rx';
 import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
-import { Simplr, Action, Wrapper, Adapter, SimplrModule } from 'ngrx-store-simplr';
+import { Simplr, Action, Wrapper, SimplrModule } from 'ngrx-store-simplr';
 import { TimestampService } from './timestamp';
 import { NictService } from './nict';
 
@@ -27,12 +27,11 @@ const { _UPDATE_, _FAILED_ } = new Wrapper<TestState>().getActionKeysForSimplr('
 
 describe('TimestampService', () => {
   let simplr: Simplr<TestState>;
-  let adapter: Adapter<TestState>;
   let service: TimestampService;
 
   beforeEach(() => TestBed.configureTestingModule({
     imports: [
-      SimplrModule.forTesting(),
+      SimplrModule.forTesting<TestState>({ ...initialState }),
     ],
     providers: [
       TimestampService,
@@ -42,13 +41,10 @@ describe('TimestampService', () => {
 
   beforeEach(() => {
     simplr = TestBed.get(Simplr);
-    adapter = TestBed.get(Adapter);
     service = TestBed.get(TimestampService);
     const nict = TestBed.get(NictService);
     nict.requestLocalTimestamp.and.returnValue(Observable.of(1));
     nict.requestServerTimestamp.and.returnValue(Observable.of(3));
-
-    adapter.setInitialState({ ...initialState });
   });
 
   it('getLocalTimestamp', fakeAsync(() => {
