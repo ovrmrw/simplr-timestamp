@@ -10,13 +10,13 @@ import { NictService } from './nict';
 import * as timestamp from '../store/actions/timestamp';
 
 
-const localTimestampResolver: (data: number) => timestamp.Resolver =
+const localTimestampResolver: (data: number) => timestamp.PartialResolver =
   (newTimestamp) => {
     const local = newTimestamp;
     return { local };
   };
 
-const serverTimestampResolver: (flag: boolean) => (data: number) => timestamp.Resolver =
+const serverTimestampResolver: (flag: boolean) => (data: number) => timestamp.PartialResolver =
   (withTimelag) => (newTimestamp) => (state) => {
     const server = newTimestamp;
     const timelag = withTimelag ? newTimestamp - state.local : state.timelag;
