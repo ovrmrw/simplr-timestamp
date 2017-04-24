@@ -56,14 +56,14 @@ describe('TimestampService', () => {
     let action: Action;
     service.getLocalTimestamp().subscribe(a => action = a);
     tick();
-    expect(action).toEqual({ type: _UPDATE_, payload: { local: 1 } });
+    expect(action).toEqual({ type: _UPDATE_, payload: { local: 1, server: 0, timelag: 0 } });
   }));
 
   it('getServerTimestamp', fakeAsync(() => {
     let action: Action;
     service.getServerTimestamp().subscribe(a => action = a);
     tick();
-    expect(action).toEqual({ type: _UPDATE_, payload: { server: 3, timelag: 0 } });
+    expect(action).toEqual({ type: _UPDATE_, payload: { local: 0, server: 3, timelag: 0 } });
   }));
 
   it('getBothTimestamp', fakeAsync(() => {
@@ -71,8 +71,8 @@ describe('TimestampService', () => {
     service.getBothTimestamp().subscribe(a => actions = a);
     tick();
     expect(actions).toEqual([
-      { type: _UPDATE_, payload: { local: 1 } },
-      { type: _UPDATE_, payload: { server: 3, timelag: 2 } },
+      { type: _UPDATE_, payload: { local: 1, server: 0, timelag: 0 } },
+      { type: _UPDATE_, payload: { local: 1, server: 3, timelag: 2 } },
     ]);
   }));
 });

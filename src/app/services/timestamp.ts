@@ -10,17 +10,17 @@ import { NictService } from './nict';
 import * as timestamp from '../store/actions/timestamp';
 
 
-const localTimestampResolver: (data: number) => timestamp.PartialResolver =
-  (newTimestamp) => {
+const localTimestampResolver: (data: number) => timestamp.Resolver =
+  (newTimestamp) => (state) => {
     const local = newTimestamp;
-    return { local };
+    return { ...state, local };
   };
 
-const serverTimestampResolver: (flag: boolean) => (data: number) => timestamp.PartialResolver =
+const serverTimestampResolver: (flag: boolean) => (data: number) => timestamp.Resolver =
   (withTimelag) => (newTimestamp) => (state) => {
     const server = newTimestamp;
     const timelag = withTimelag ? newTimestamp - state.local : state.timelag;
-    return { server, timelag };
+    return { ...state, server, timelag };
   };
 
 
@@ -33,7 +33,7 @@ export class TimestampService {
 
   getLocalTimestamp(): Observable<Action> {
     return this.simplr
-      .dispatch('timestamp', this.nict.requestLocalTimestamp().map(local => ({ local })))
+      .dispatch('timestamp', this.nict.requestLocalTimestamp().map(localTimestampResolver))
       .map(result => result.action);
   }
 
