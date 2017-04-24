@@ -1,8 +1,7 @@
 // import 'rxjs/Rx';
 import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
-import { Action } from '@ngrx/store';
-import { Simplr, Wrapper, Adapter, SimplrModule } from 'ngrx-store-simplr';
+import { Simplr, Action, Wrapper, Adapter, SimplrModule } from 'ngrx-store-simplr';
 import { TimestampService } from './timestamp';
 import { NictService } from './nict';
 

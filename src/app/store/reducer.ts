@@ -7,12 +7,12 @@ const wrapper = new Wrapper<AppState>();
 
 
 const wrappedReducers = wrapper.mergeReducersIntoWrappedReducers({
-  timestamp: null, // if you have the reducer for timestamp key, set here instead of null.
+  timestamp: null, // if you have a reducer for this key, set it here instead of null.
 });
 
 const rootReducer = combineReducers(wrappedReducers);
 
-export function reducer(state, action) { // workaround for AoT build
+export function reducer(state, action) { // workaround for AoT compile
   return rootReducer(state, action);
 }
 
