@@ -1,6 +1,5 @@
-// import 'rxjs/Rx';
 import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { Simplr, Action, Wrapper, SimplrModule } from 'ngrx-store-simplr';
 import { TimestampService } from './timestamp';
 import { NictService } from './nict';
