@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Simplr, Action } from 'ngrx-store-simplr';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/zip';
+import 'rxjs/add/observable/forkJoin';
 
 import { AppState } from '../store/models';
 import { NictService } from './nict';
@@ -43,9 +43,9 @@ export class TimestampService {
   }
 
   getBothTimestamp(): Observable<Action[]> {
-    return Observable.zip(
+    return Observable.forkJoin([
       this.getLocalTimestamp(),
-      this.getServerTimestamp(true)
-    );
+      this.getServerTimestamp(true),
+    ]);
   }
 }
