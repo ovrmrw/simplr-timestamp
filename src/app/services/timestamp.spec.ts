@@ -24,7 +24,7 @@ const initialState: TestState = {
 const { _UPDATE_, _FAILED_ } = new Wrapper<TestState>().getActionKeysForSimplr('timestamp');
 
 
-describe('TimestampService', () => {
+describe('TimestampService Test', () => {
   let simplr: Simplr<TestState>;
   let service: TimestampService;
 
@@ -42,7 +42,8 @@ describe('TimestampService', () => {
     simplr = TestBed.get(Simplr);
     service = TestBed.get(TimestampService);
     const nict = TestBed.get(NictService);
-    nict.requestLocalTimestamp.and.returnValue(Observable.of(1));
+    // nict.requestLocalTimestamp.and.returnValue(Observable.of(1));
+    nict.requestLocalTimestamp.and.returnValue(1);
     nict.requestServerTimestamp.and.returnValue(Observable.of(3));
   });
 

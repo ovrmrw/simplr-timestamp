@@ -9,13 +9,13 @@ import { NictService } from './nict';
 import * as timestamp from '../store/actions/timestamp';
 
 
-const localTimestampResolver: (data: number) => timestamp.Resolver =
+const localTimestampResolver: (effect: number) => timestamp.Resolver =
   (newTimestamp) => (state) => {
     const local = newTimestamp;
     return { ...state, local };
   };
 
-const serverTimestampResolver: (flag: boolean) => (data: number) => timestamp.Resolver =
+const serverTimestampResolver: (flag: boolean) => (effect: number) => timestamp.Resolver =
   (withTimelag) => (newTimestamp) => (state) => {
     const server = newTimestamp;
     const timelag = withTimelag ? newTimestamp - state.local : state.timelag;
@@ -31,19 +31,21 @@ export class TimestampService {
   ) { }
 
   getLocalTimestamp(): Observable<Action> {
+    const timestamp: number = this.nict.requestLocalTimestamp();
     return this.simplr
-      .dispatch('timestamp', this.nict.requestLocalTimestamp().map(localTimestampResolver))
+      .dispatch('timestamp', localTimestampResolver(timestamp))
       .map(result => result.action);
   }
 
   getServerTimestamp(timelag: boolean = false): Observable<Action> {
+    const timestamp$: Observable<number> = this.nict.requestServerTimestamp();
     return this.simplr
-      .dispatch('timestamp', this.nict.requestServerTimestamp().map(serverTimestampResolver(timelag)))
+      .dispatch('timestamp', timestamp$.map(serverTimestampResolver(timelag)))
       .map(result => result.action);
   }
 
   getBothTimestamp(): Observable<Action[]> {
-    return Observable.forkJoin([
+    return Observable.forkJoin([ // Observable.forkJoin() is the Observable version of Promise.all()
       this.getLocalTimestamp(),
       this.getServerTimestamp(true),
     ]);

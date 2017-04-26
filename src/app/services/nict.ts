@@ -11,8 +11,8 @@ export class NictService {
     private http: Http,
   ) { }
 
-  requestLocalTimestamp(): Observable<number> {
-    return Observable.of(new Date().getTime());
+  requestLocalTimestamp(): number {
+    return new Date().getTime();
   }
 
   requestServerTimestamp(): Observable<number> {
