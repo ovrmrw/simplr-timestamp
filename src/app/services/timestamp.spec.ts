@@ -30,11 +30,14 @@ describe('TimestampService Test', () => {
 
   beforeEach(() => TestBed.configureTestingModule({
     imports: [
-      SimplrModule.forTesting<TestState>({ ...initialState }),
+      SimplrModule.forTesting<TestState>(initialState),
     ],
     providers: [
       TimestampService,
-      { provide: NictService, useValue: jasmine.createSpyObj('nict', ['requestLocalTimestamp', 'requestServerTimestamp']) },
+      {
+        provide: NictService,
+        useValue: jasmine.createSpyObj('nict', ['requestLocalTimestamp', 'requestServerTimestamp'])
+      },
     ]
   }));
 
@@ -42,7 +45,6 @@ describe('TimestampService Test', () => {
     simplr = TestBed.get(Simplr);
     service = TestBed.get(TimestampService);
     const nict = TestBed.get(NictService);
-    // nict.requestLocalTimestamp.and.returnValue(Observable.of(1));
     nict.requestLocalTimestamp.and.returnValue(1);
     nict.requestServerTimestamp.and.returnValue(Observable.of(3));
   });
