@@ -9,17 +9,17 @@ import { NictService } from './nict';
 import * as timestamp from '../store/actions/timestamp';
 
 
-const localTimestampResolver: (effect: number) => timestamp.Resolver =
-  (newTimestamp) => (state) => {
-    const local = newTimestamp;
-    return { ...state, local };
+const localTimestampResolver: (data: number) => timestamp.Resolver =
+  (newLocalTimestamp) => (timestamp) => {
+    const local = newLocalTimestamp;
+    return { ...timestamp, local };
   };
 
-const serverTimestampResolver: (flag: boolean) => (effect: number) => timestamp.Resolver =
-  (withTimelag) => (newTimestamp) => (state) => {
-    const server = newTimestamp;
-    const timelag = withTimelag ? newTimestamp - state.local : state.timelag;
-    return { ...state, server, timelag };
+const serverTimestampResolver: (flag: boolean) => (data: number) => timestamp.Resolver =
+  (withTimelag) => (newServerTimestamp) => (timestamp) => {
+    const server = newServerTimestamp;
+    const timelag = withTimelag ? newServerTimestamp - timestamp.local : timestamp.timelag;
+    return { ...timestamp, server, timelag };
   };
 
 
